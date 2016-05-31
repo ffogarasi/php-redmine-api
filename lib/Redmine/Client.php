@@ -126,6 +126,7 @@ class Client
         'issue_priority' => 'IssuePriority',
         'issue_relation' => 'IssueRelation',
         'issue_status' => 'IssueStatus',
+        'issue_checklist' => 'IssueChecklist',
         'membership' => 'Membership',
         'news' => 'News',
         'project' => 'Project',
@@ -530,6 +531,7 @@ class Client
 
         // Content type headers
         $tmp = parse_url($this->url.$path);
+
         if ('/uploads.json' === $path || '/uploads.xml' === $path) {
             $httpHeader[] = 'Content-Type: application/octet-stream';
         } elseif ('json' === substr($tmp['path'], -4)) {
@@ -613,7 +615,7 @@ class Client
     protected function runRequest($path, $method = 'GET', $data = '')
     {
         $curl = $this->prepareRequest($path, $method, $data);
-
+        
         $response = trim(curl_exec($curl));
         $this->responseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $contentType = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
