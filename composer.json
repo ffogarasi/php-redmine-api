@@ -1,15 +1,15 @@
 {
-    "name": "kbsali/redmine-api",
+    "name": "ffogarasi/redmine-api",
     "type": "library",
     "description": "Redmine API client",
-    "homepage": "https://github.com/kbsali/php-redmine-api",
+    "homepage": "https://github.com/ffogarasi/php-redmine-api",
     "keywords": ["redmine", "api"],
     "license": "MIT",
     "authors": [
         {
-            "name": "Kevin Saliou",
-            "email": "kevin@saliou.name",
-            "homepage": "http://kevin.saliou.name"
+	    "name": "Fogarasi Ferenc",
+	    "email": "ffogarasi@gmail.com",
+	    "homepage":""
         }
     ],
     "require": {
