@@ -120,14 +120,6 @@ class Issue extends AbstractApi
         $defaults = array(
             'subject' => null,
             'description' => null,
-
-            // 'project' => null,
-            // 'category' => null,
-            // 'status' => null,
-            // 'tracker' => null,
-            // 'assigned_to' => null,
-            // 'author' => null,
-
             'project_id' => null,
             'category_id' => null,
             'priority_id' => null,
@@ -146,8 +138,6 @@ class Issue extends AbstractApi
         $xml = $this->buildXML($params);
 
         return $this->post('/issues.xml', $xml->asXML());
-        // $json = json_encode(array('issue' => $params));
-        // return $this->post('/issues.json', $json);
     }
 
     /**
@@ -167,14 +157,6 @@ class Issue extends AbstractApi
             'subject' => null,
             'notes' => null,
             'private_notes' => false,
-
-            // 'project' => null,
-            // 'category' => null,
-            // 'status' => null,
-            // 'tracker' => null,
-            // 'assigned_to' => null,
-            // 'author' => null,
-
             'category_id' => null,
             'priority_id' => null,
             'status_id' => null,
@@ -277,23 +259,39 @@ class Issue extends AbstractApi
     }
 
     /**
-     * Attach a file to an issue issue number. Requires authentication.
+     * Attach a file to an issue. Requires authentication.
      *
      * @link http://www.redmine.org/projects/redmine/wiki/Rest_Issues#Updating-an-issue
      *
      * @param string $id         the issue number
-     * @param array  $attachment
+     * @param array  $attachment ['token' => '...', 'filename' => '...', 'content_type' => '...']
      *
      * @return bool|string
      */
     public function attach($id, array $attachment)
     {
+        return $this->attachMany($id, array($attachment));
+    }
+
+    /**
+     * Attach files to an issue. Requires authentication.
+     *
+     * @link http://www.redmine.org/projects/redmine/wiki/Rest_Issues#Updating-an-issue
+     *
+     * @param string $id          the issue number
+     * @param array  $attachments [
+     *                                ['token' => '...', 'filename' => '...', 'content_type' => '...'],
+     *                                ['token' => '...', 'filename' => '...', 'content_type' => '...']
+     *                            ]
+     *
+     * @return bool|string
+     */
+    public function attachMany($id, array $attachments)
+    {
         $request = array();
         $request['issue'] = array(
             'id' => $id,
-            'uploads' => array(
-                'upload' => $attachment,
-            ),
+            'uploads' => $attachments,
         );
 
         return $this->put('/issues/'.$id.'.json', json_encode($request));
