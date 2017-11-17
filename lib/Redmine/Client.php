@@ -616,7 +616,12 @@ class Client
     {
         $curl = $this->prepareRequest($path, $method, $data);
         
-        $response = trim(curl_exec($curl));
+        $response = curl_exec($curl);
+        if( preg_match('|^/attachments/download/(\d+)$|', $path) !== 1)
+        {
+               $response = trim($response);
+	    }
+
         $this->responseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $contentType = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
 
